@@ -26,6 +26,9 @@ import android.widget.ImageView;
  *  控件再用圆形美工格杀勿论！
  */  
 public class CircleImageView extends ImageView {  
+	
+	final static int BORDER_VALUE = 10;
+	
     private Paint paint = new Paint();  
   
     public CircleImageView(Context context) {  
@@ -53,11 +56,11 @@ public class CircleImageView extends ImageView {
            
             paint.reset();  
             //width 需要用原图的长宽，因为新的切割后已经缩小了width
-            int width = bitmap.getWidth();
+            int width = b.getWidth();
             int height = b.getHeight();
                         
-            int newWidth = viewWidth;
-            int newHeight = viewWidth;
+            int newWidth = viewWidth - BORDER_VALUE;
+            int newHeight = viewWidth - BORDER_VALUE;
             float scaleWidth = ((float) newWidth) / width;
             float scaleHeight = ((float) newHeight) / height;
             Matrix matrix = new Matrix();
@@ -73,8 +76,8 @@ public class CircleImageView extends ImageView {
             
             paint.reset();
             // 放在画布上
-            canvas.drawBitmap(newbm, 0, 0, paint);
-                                 
+            canvas.drawBitmap(newbm, BORDER_VALUE/2, BORDER_VALUE/2, paint);
+                                             
 /*            final Rect rect = new Rect(0, 0, width, height);          
             canvas.drawBitmap(newbm, rect, rect, paint);*/
         } else {  
@@ -84,7 +87,7 @@ public class CircleImageView extends ImageView {
   
     private Bitmap toRoundCorner(Bitmap bitmap, int pixels) {  
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),  
-                bitmap.getHeight(), Config.ARGB_8888);  
+                bitmap.getWidth(), Config.ARGB_8888);  
         Canvas canvas = new Canvas(output);  
           
         final int color = 0xff424242;  
@@ -93,7 +96,7 @@ public class CircleImageView extends ImageView {
         canvas.drawARGB(0, 0, 0, 0);  
         paint.setColor(color);  
         float x = bitmap.getWidth() /2;  
-        canvas.drawCircle(x , x , x - 8 , paint);  
+        canvas.drawCircle(x , x , x , paint);  
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN)); 
         
         canvas.drawBitmap(bitmap, rect, rect, paint);  
