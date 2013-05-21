@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;  
 import android.graphics.PorterDuffXfermode;  
 import android.graphics.Rect;  
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;  
 import android.graphics.drawable.Drawable;  
 import android.util.AttributeSet;  
@@ -86,22 +87,48 @@ public class CircleImageView extends ImageView {
     }  
   
     private Bitmap toRoundCorner(Bitmap bitmap, int pixels) {  
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),  
-                bitmap.getWidth(), Config.ARGB_8888);  
-        Canvas canvas = new Canvas(output);  
-          
-        final int color = 0xff424242;  
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());  
-        paint.setAntiAlias(true);  
-        canvas.drawARGB(0, 0, 0, 0);  
-        paint.setColor(color);  
-        float x = bitmap.getWidth() /2;  
-        canvas.drawCircle(x , x , x , paint);  
-        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN)); 
+    	int width = bitmap.getWidth();
+    	int height = bitmap.getHeight();
         
-        canvas.drawBitmap(bitmap, rect, rect, paint);  
-        
+        float min = (width < height?width:height);        
+        float roundPx;
+        float left,top,right,bottom;
+        if (width <= height) {
+                roundPx = width / 2;
+                top = 0;
+                bottom = width;
+                left = 0;
+                right = width;
+                height = width;
+        } else {
+                roundPx = height / 2;
+                float clip = (width - height) / 2;
+                left = clip;
+                right = width - clip;
+                top = 0;
+                bottom = height;
+                width = height;
+        }
 
-        return output;  
+        Log.i("toRounde", 0 + "  "+ 0+ " "+ min+" "+min);        
+        Bitmap output = Bitmap.createBitmap(width,
+                height, Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+		 
+		final int color = 0xff424242;
+		final Paint paint = new Paint();
+		final Rect src = new Rect((int)left, (int)top, (int)right, (int)bottom);
+		final Rect dst = new Rect((int)0, (int)0, (int)min, (int)min);
+		final RectF rectF = new RectF(dst);
+		
+		paint.setAntiAlias(true);
+		 
+		canvas.drawARGB(0, 0, 0, 0);
+		paint.setColor(color);
+		canvas.drawRoundRect(rectF, roundPx , roundPx, paint);
+		
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, src, dst, paint);
+		return output;
     }  
 }  
