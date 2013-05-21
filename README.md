@@ -3,6 +3,8 @@ open-source-sky
 
 个人一些开源的东西
 
+主要是从HduIn项目组剥离出来的
+
 NewPullToRefresh 仿照Path 伸缩图片的下拉刷新
 
 CircleImageView 将默认形状的图片从中心切圆并画出白色边缘
