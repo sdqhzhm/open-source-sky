@@ -6,11 +6,11 @@ View
 --------
 主要是从HduIn项目组剥离出来的
 
-NewPullToRefresh 仿照Path 伸缩图片的下拉刷新
+* NewPullToRefresh 仿照Path 伸缩图片的下拉刷新
 
-CircleImageView 将默认形状的图片从中心切圆并画出白色边缘
+* CircleImageView 将默认形状的图片从中心切圆并画出白色边缘
 
-NowLayout 仿照Google+ 的卡片加载动画的LinearLayout 
+* NowLayout 仿照Google+ 的卡片加载动画的LinearLayout 
 
 ![image](screenshots/Screenshot_2013-05-08-22-34-50.png) 
 
